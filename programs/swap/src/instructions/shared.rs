@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token_interface::{self, Mint, TransferChecked, Token2022, TokenAccount};
+use anchor_spl::token_interface::{self, Mint, TransferChecked, TokenInterface, TokenAccount};
 
 pub fn transfer_tokens<'info>(
     from: &InterfaceAccount<'info, TokenAccount>,
@@ -7,7 +7,7 @@ pub fn transfer_tokens<'info>(
     amount: u64,
     mint: &InterfaceAccount<'info, Mint>,
     authority: &Signer<'info>,
-    token_program: &Program<'info, Token2022>,
+    token_program: &Interface<'info, TokenInterface>,
 ) -> Result<()> {
     let transfer_accounts = TransferChecked {
         from: from.to_account_info(),

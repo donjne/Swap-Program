@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,
-    token_interface::{TokenAccount, Mint, Token2022}
+    token_interface::{TokenAccount, Mint, TokenInterface}
 };
 use crate::Offer;
 
@@ -45,7 +45,7 @@ pub struct MakeOffer<'info> {
     )]
     pub vault: InterfaceAccount<'info, TokenAccount>,
     pub system_program: Program<'info, System>,
-    pub token_program: Program<'info, Token2022>,
+    pub token_program: Interface<'info, TokenInterface>,
     pub associated_token_program: Program<'info, AssociatedToken>,
 
 }
