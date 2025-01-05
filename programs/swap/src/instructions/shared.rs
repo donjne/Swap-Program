@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::{token::{self, Mint, TokenAccount, TransferChecked}, token_interface::TokenInterface};
-use anchor_lang::solana_program::program::invoke_signed;
+use anchor_spl::token_interface::{self, Mint, TransferChecked, Token2022, TokenAccount};
 
 pub fn transfer_tokens<'info>(
     from: &InterfaceAccount<'info, TokenAccount>,
@@ -8,7 +7,7 @@ pub fn transfer_tokens<'info>(
     amount: u64,
     mint: &InterfaceAccount<'info, Mint>,
     authority: &Signer<'info>,
-    token_program: &Program<'info, TokenInterface>,
+    token_program: &Program<'info, Token2022>,
 ) -> Result<()> {
     let transfer_accounts = TransferChecked {
         from: from.to_account_info(),
@@ -22,40 +21,7 @@ pub fn transfer_tokens<'info>(
         transfer_accounts,
     );
     
-    token::transfer_checked(cpi_context, amount, mint.decimals)?;
+    token_interface::transfer_checked(cpi_context, amount, mint.decimals)?;
     
     Ok(())
 }
-
-
-
-// use anchor_lang::prelude::*;
-// use anchor_spl::{
-//     token::{spl_token::instruction::transfer_checked, Mint, TokenAccount, TransferChecked},
-//     token_interface::TokenInterface,
-// };
-
-// pub fn transfer_tokens<'info>(
-//     from: &InterfaceAccount<'info, TokenAccount>,
-//     to: &InterfaceAccount<'info, TokenAccount>,
-//     amount: &u64,
-//     mint: &InterfaceAccount<'info, Mint>,
-//     authority: &Signer<'info>,
-//     token_program: &Interface<'info, TokenInterface>,
-// ) -> Result<()> {
-//     let transfer_accounts = TransferChecked {
-//         from: from.to_account_info(),
-//         to: to.to_account_info(),
-//         authority: authority.to_account_info(),
-//         mint: mint.to_account_info(),
-//     };
-
-//     let cpi_context = CpiContext::new(
-//         token_program.to_account_info(),
-//         transfer_accounts,
-//     );
-    
-//     transfer_checked(cpi_context, *amount, mint.decimals)?;
-    
-//     Ok(())
-// }

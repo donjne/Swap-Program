@@ -13,8 +13,6 @@ declare_id!("3XomgAn7joYbdhVsYCo7RcBA4WgF3vF8KCS6AfFJXNL3");
 
 #[program]
 pub mod swap {
-    use anchor_spl::token;
-
     use super::*;
 
     pub fn make_offer(context: Context<MakeOffer>, id:u64, token_a_offered_amount:u64, token_b_wanted_amount:u64) -> Result<()> {
